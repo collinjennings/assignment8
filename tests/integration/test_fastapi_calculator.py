@@ -152,3 +152,58 @@ def test_divide_by_zero_api(client):
     # Assert that the 'error' field contains the correct error message
     assert "Cannot divide by zero!" in response.json()['error'], \
         f"Expected error message 'Cannot divide by zero!', got '{response.json()['error']}'"
+    
+# ----------------------------------------------
+# Test Function: test_modulus_api
+# ----------------------------------------------
+
+def test_modulus_api(client):
+    """
+    Test the Modulus API Endpoint.
+
+    This test verifies that the `/modulus` endpoint correctly calculates the modulus
+    of two numbers provided in the JSON payload and returns the expected result.
+
+    Steps:
+    1. Send a POST request to the `/modulus` endpoint with JSON data `{'a': 10, 'b': 3}`.
+    2. Assert that the response status code is `200 OK`.
+    3. Assert that the JSON response contains the correct result (`1`).
+    """
+    # Send a POST request to the '/modulus' endpoint with JSON payload
+    response = client.post('/modulus', json={'a': 10, 'b': 3})
+    
+    # Assert that the response status code is 200 (OK)
+    assert response.status_code == 200, f"Expected status code 200, got {response.status_code}"
+    
+    # Assert that the JSON response contains the correct 'result' value
+    assert response.json()['result'] == 1, f"Expected result 1, got {response.json()['result']}"
+
+
+## ----------------------------------------------
+# Test Function: test_modulus_by_zero_api
+# ----------------------------------------------
+
+def test_modulus_by_zero_api(client):
+    """
+    Test the Modulus by Zero API Endpoint.
+
+    This test verifies that the `/modulus` endpoint correctly handles modulus by zero
+    by returning an appropriate error message and status code.
+
+    Steps:
+    1. Send a POST request to the `/modulus` endpoint with JSON data `{'a': 10, 'b': 0}`.
+    2. Assert that the response status code is `400 Bad Request`.
+    3. Assert that the JSON response contains an 'error' field with the message "Cannot perform modulus by zero!".
+    """
+    # Send a POST request to the '/modulus' endpoint with JSON payload attempting modulus by zero
+    response = client.post('/modulus', json={'a': 10, 'b': 0})
+    
+    # Assert that the response status code is 400 (Bad Request), indicating an error occurred
+    assert response.status_code == 400, f"Expected status code 400, got {response.status_code}"
+    
+    # Assert that the JSON response contains an 'error' field
+    assert 'error' in response.json(), "Response JSON does not contain 'error' field"
+    
+    # Assert that the 'error' field contains the correct error message
+    assert "Cannot perform modulus by zero!" in response.json()['error'], \
+        f"Expected error message 'Cannot perform modulus by zero!', got '{response.json()['error']}'"

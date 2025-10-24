@@ -18,7 +18,7 @@ def test_hello_world(page, fastapi_server):
     
     # Use an assertion to check that the text within the first <h1> tag is exactly "Hello World".
     # If the text does not match, the test will fail.
-    assert page.inner_text('h1') == 'Hello World'
+    assert page.inner_text('h1') == 'Assignment 8 - Web Calculator App'
 
 @pytest.mark.e2e
 def test_calculator_add(page, fastapi_server):
@@ -78,3 +78,60 @@ def test_calculator_divide_by_zero(page, fastapi_server):
     # "Error: Cannot divide by zero!". This verifies that the application handles division by zero
     # gracefully and displays the correct error message to the user.
     assert page.inner_text('#result') == 'Error: Cannot divide by zero!'
+
+@pytest.mark.e2e
+def test_calculator_modulus(page, fastapi_server):
+    """
+    Test the modulus functionality of the calculator.
+
+    This test simulates a user performing a modulus operation using the calculator
+    on the frontend. It fills in two numbers, clicks the "Modulus" button, and verifies
+    that the result displayed is correct.
+    """
+    # Navigate the browser to the homepage URL of the FastAPI application.
+    page.goto('http://localhost:8000')
+    
+    # Fill in the first number input field (with id 'a') with the value '10'.
+    page.fill('#a', '10')
+    
+    # Fill in the second number input field (with id 'b') with the value '3'.
+    page.fill('#b', '3')
+    
+    # Click the button that has the exact text "Modulus". This triggers the modulus operation.
+    page.click('button:text("Modulus")')
+    
+    # Wait for the result to appear (the async fetch needs time to complete)
+    page.wait_for_selector('#result:has-text("Calculation Result:")', timeout=5000)
+    
+    # Use an assertion to check that the text within the result div (with id 'result') is exactly "Result: 1".
+    # This verifies that the modulus operation was performed correctly and the result is displayed as expected.
+    assert page.inner_text('#result') == 'Calculation Result: 1'
+
+def test_calculator_modulus_by_zero(page, fastapi_server):
+    """
+    Test the modulus by zero functionality of the calculator.
+
+    This test simulates a user attempting to calculate the modulus of a number by zero using the calculator.
+    It fills in the numbers, clicks the "Modulus" button, and verifies that the appropriate
+    error message is displayed. This ensures that the application correctly handles invalid
+    operations and provides meaningful feedback to the user.
+    """
+    # Navigate the browser to the homepage URL of the FastAPI application.
+    page.goto('http://localhost:8000')
+    
+    # Fill in the first number input field (with id 'a') with the value '10'.
+    page.fill('#a', '10')
+    
+    # Fill in the second number input field (with id 'b') with the value '0', attempting to modulus by zero.
+    page.fill('#b', '0')
+    
+    # Click the button that has the exact text "Modulus". This triggers the modulus operation.
+    page.click('button:text("Modulus")')
+    
+    # Wait for the error message to appear
+    page.wait_for_selector('#result:has-text("Error:")', timeout=5000)
+    
+    # Use an assertion to check that the text within the result div (with id 'result') is exactly
+    # "Error: Cannot modulus by zero!". This verifies that the application handles modulus by zero
+    # gracefully and displays the correct error message to the user.
+    assert page.inner_text('#result') == 'Error: Cannot perform modulus by zero!'

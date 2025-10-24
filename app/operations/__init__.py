@@ -12,6 +12,7 @@ Functions:
 - subtract(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the difference when b is subtracted from a.
 - multiply(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the product of a and b.
 - divide(a: Union[int, float], b: Union[int, float]) -> float: Returns the quotient when a is divided by b. Raises ValueError if b is zero.
+- modulus(a: Union[int, float], b: Union[int, float]) -> Union[int, float]: Returns the modulus of a by b. Raises ValueError if b is zero.
 
 Usage:
 These functions can be imported and used in other modules or integrated into APIs
@@ -117,4 +118,34 @@ def divide(a: Number, b: Number) -> float:
     
     # Perform division of a by b and return the result as a float
     result = a / b
+    return result
+
+def modulus (a: Number, b: Number) -> Number:
+    """
+    Calculate the modulus of two numbers and return the result.
+
+    Parameters:
+    - a (int or float): The dividend.
+    - b (int or float): The divisor.
+
+    Returns:
+    - int or float: The remainder of a divided by b.
+
+    Raises:
+    - ValueError: If b is zero, as modulus by zero is undefined.
+
+    Example:
+    >>> modulus(5, 2)
+    1
+    >>> modulus(5.5, 2)
+    1.5
+    Traceback (most recent call last):
+        ...
+    ValueError: Cannot perform modulus by zero!
+    """
+    if b == 0:
+        raise ValueError("Cannot perform modulus by zero!")
+    
+    # Perform modulus operation of a by b
+    result = a % b
     return result
