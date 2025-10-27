@@ -1,5 +1,17 @@
 ## Assignment 8 - Fast API Calculator Web Application 
 
+This is a calculator web app that uses the FastAPI framework for completing mathematical operations on the webpage. The webpage include the following operations
+
+- `addition` 
+- `subtraction` 
+- `multiplication`
+- `division`
+- `modulus`
+
+DockerHub Link: https://hub.docker.com/repository/docker/collinjennings/assignment8/general
+
+Follow the directions below for setting up the project. 
+
 # 📦 Project Setup
 
 ---
